@@ -13,6 +13,7 @@ import ru.website_ara_and_rody.entity.Post;
 import ru.website_ara_and_rody.security.CustomUserDetails;
 import ru.website_ara_and_rody.service.PostService;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -34,22 +35,22 @@ public class PostController {
     }
 
     @PostMapping("/creatPost")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> createPost(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                        @RequestBody CreatePostDto createPostDto,
-                                        @RequestPart("files") List<MultipartFile> files) {
+                                        @RequestPart("createPostDto") CreatePostDto createPostDto,
+                                        @RequestPart(value = "files", required = false) List<MultipartFile> files) {
 
         try {
             Post post = postService.createPost(customUserDetails.getId(), createPostDto, files);
             return ResponseEntity.ok(post);
-        } catch (RuntimeException e) {
+        } catch (IOException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
 
     @PutMapping("update-title-post/{postId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateTitlePost(@PathVariable Long postId,
                                              @RequestParam String newTitle) {
         try {
@@ -62,7 +63,7 @@ public class PostController {
     }
 
     @PutMapping("update-text-post/{postId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> updateTextPost(@PathVariable Long postId,
                                             @RequestParam String newText) {
         try {
@@ -75,7 +76,7 @@ public class PostController {
     }
 
     @DeleteMapping("/delete{postId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deletePost(@PathVariable Long postId) {
         try {
             postService.deletePost(postId);

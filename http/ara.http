@@ -1,16 +1,19 @@
+### ==================== Аутентификация ====================
+
 ### Регистрация нового пользователя
 POST http://localhost:9090/api/users/registration
 Content-Type: application/json
 
 {
   "email": "4057163@mail.ru",
-  "password": "11111111"
+  "password": "11111111",
+  "name": "Иван"
 }
 
-### Подтверждение регистрации (код из письма)
-POST http://localhost:9090/api/users/confirm-registration?code=983365
+### Подтверждение регистрации (код приходит на почту)
+POST http://localhost:9090/api/users/confirm-registration?code=CC2030
 
-### Аутентификация (вход)
+### Вход и получение JWT токенов (возвращает accessToken + refreshToken)
 POST http://localhost:9090/api/singIn/auth
 Content-Type: application/json
 
@@ -19,21 +22,87 @@ Content-Type: application/json
   "password": "11111111"
 }
 
-### 1. Создание поста (требуется JWT-токен в заголовке Authorization)
+### ==================== Посты ====================
+
+### Получение всех постов (доступно любому авторизованному)
+GET http://localhost:9090/api/post/all
+Authorization: Bearer <ваш_jwt_токен>
+
+### Создание поста с изображением test-avatar
 POST http://localhost:9090/api/post/creatPost
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0MDU3MTYzQG1haWwucnUiLCJpYXQiOjE3NzY4ODA5NjcsImV4cCI6MTc3Njg4MTg2NywidXNlcklkIjoxLCJyb2xlcyI6WyJBRE1JTiJdfQ.gqrSNvpzzgOvND9qRaNXwpyUHA46W_ULFIFsdQ8q-bBRYj5ImUeumIxVess-qJML
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="createPostDto"
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0MDU3MTYzQG1haWwucnUiLCJpYXQiOjE3NzY4Njg3OTgsImV4cCI6MTc3Njg2OTY5OCwidXNlcklkIjoxLCJyb2xlcyI6WyJVU0VSIl19.JA5NWgspN4Ra-JNiRArquo8liO2LpcS7wDaUNhTlhTYlO3zy4iGnaeX9lynWLmC3
 
 {
-  "title": "Заголовок первого поста",
-  "text": "Текст поста, может быть длинным"
+  "title": "Пост с аватаром",
+  "text": "Текст поста с тестовым изображением"
 }
+------WebKitFormBoundary
+Content-Disposition: form-data; name="files"; filename="test-avatar.jpg"
+Content-Type: image/jpeg
 
-### 2. Создание комментария к посту с ID = 1 (требуется JWT-токен)
+< test-avatar.jpg
+------WebKitFormBoundary--
+
+### Обновление заголовка поста (ТОЛЬКО ADMIN)
+PUT http://localhost:9090/api/post/update-title-post/1?newTitle=Новый%20заголовок
+Authorization: Bearer <jwt_токен_админа>
+
+### Обновление текста поста (ТОЛЬКО ADMIN)
+PUT http://localhost:9090/api/post/update-text-post/1?newText=Новый%20текст%20поста
+Authorization: Bearer <jwt_токен_админа>
+
+### Удаление поста (ТОЛЬКО ADMIN)
+# Внимание: в коде URL выглядит как "/delete{postId}" (без слеша) – вероятно опечатка.
+# Если исправят на "/delete/{postId}", используйте:
+# DELETE http://localhost:9090/api/post/delete/1
+# Иначе работает:
+DELETE http://localhost:9090/api/post/delete1
+Authorization: Bearer <jwt_токен_админа>
+
+### ==================== Комментарии ====================
+
+### Создание комментария к посту с ID = 1
 POST http://localhost:9090/api/comment/create/1
+Authorization: Bearer <jwt_токен>
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0MDU3MTYzQG1haWwucnUiLCJpYXQiOjE3NzY4NjkyODEsImV4cCI6MTc3Njg3MDE4MSwidXNlcklkIjoxLCJyb2xlcyI6WyJVU0VSIl19.tQQpWfhtj_Uaz4V3bZzDblAPSFFQpowsvkE0aljiMTIfofQog-E0F0rUEN_j1l7t
 
 {
   "comment_text": "Отличный пост!"
 }
+
+### Получение всех комментариев для поста с ID = 1
+GET http://localhost:9090/api/comment/get-All-Comments-in-post/1
+Authorization: Bearer <jwt_токен>
+
+### Удаление комментария по его ID
+DELETE http://localhost:9090/api/comment/delete-comment/5
+Authorization: Bearer <jwt_токен>
+
+### ==================== Изображения ====================
+
+### Получение изображения по ID (возможно публичный доступ)
+GET http://localhost:9090/image/3
+
+###
+### Создание поста БЕЗ изображений
+POST http://localhost:9090/api/post/creatPost
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0MDU3MTYzQG1haWwucnUiLCJpYXQiOjE3NzY4ODAwODUsImV4cCI6MTc3Njg4MDk4NSwidXNlcklkIjoxLCJyb2xlcyI6WyJBRE1JTiJdfQ.74lAmyxMVMZGBwtebUHp5lez59kdsTivKa_2NLY0E4LD41Ailtq7t_0YUazpsu6J
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="createPostDto"
+Content-Type: application/json
+
+{
+  "title": "Пост без картинки",
+  "text": "Текст поста без прикреплённых файлов"
+}
+------WebKitFormBoundary--
+
+###
+GET http://localhost:9090/image/1
