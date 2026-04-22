@@ -75,7 +75,7 @@ public class PostController {
         }
     }
 
-    @DeleteMapping("/delete{postId}")
+    @DeleteMapping("/delete/{postId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deletePost(@PathVariable Long postId) {
         try {

@@ -61,13 +61,13 @@ Authorization: Bearer <jwt_токен_админа>
 # Если исправят на "/delete/{postId}", используйте:
 # DELETE http://localhost:9090/api/post/delete/1
 # Иначе работает:
-DELETE http://localhost:9090/api/post/delete1
-Authorization: Bearer <jwt_токен_админа>
+DELETE http://localhost:9090/api/post/delete/5
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0MDU3MTYzQG1haWwucnUiLCJpYXQiOjE3NzY4ODUxODAsImV4cCI6MTc3Njg4NjA4MCwidXNlcklkIjoxLCJyb2xlcyI6WyJBRE1JTiJdfQ.pS4vSJx9O2B2nhS2MGPagh_cV5PjqgeIbn7Dmp-YQpXWiB3nAze044VuAcfX5HeF
 
 ### ==================== Комментарии ====================
 
 ### Создание комментария к посту с ID = 1
-POST http://localhost:9090/api/comment/create/1
+POST http://localhost:9090/api/comment/create/5
 Authorization: Bearer <jwt_токен>
 Content-Type: application/json
 
@@ -81,7 +81,7 @@ Authorization: Bearer <jwt_токен>
 
 ### Удаление комментария по его ID
 DELETE http://localhost:9090/api/comment/delete-comment/5
-Authorization: Bearer <jwt_токен>
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI0MDU3MTYzQG1haWwucnUiLCJpYXQiOjE3NzY4ODUwODQsImV4cCI6MTc3Njg4NTk4NCwidXNlcklkIjoxLCJyb2xlcyI6WyJBRE1JTiJdfQ.Lq2Ch9KNEE-l39Dl3YzRJ2L2Eo0ts2apCxJ1JQl94ijU1fy-TyiN23HOBslbA4kz
 
 ### ==================== Изображения ====================
 
