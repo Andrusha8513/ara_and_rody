@@ -33,6 +33,10 @@ public class Users {
     @Size(min = 6 , max = 100 , message = "Длина почта слишком большая или маленькая")
     private String email;
 
+    @NotBlank(message = "Имя не может быть пустым!")
+    @Size(min = 1 , max = 30 , message = "Длина имени слишком большая или маленькая")
+    private String name;
+
     @NotBlank(message = "Пароль не может быть пустым!")
     @Size(min = 8  , message = "Пароль не может быть короче 8 символов и длинней 50")
     private String password;
@@ -43,6 +47,9 @@ public class Users {
     //подумать над настрокой , если пользователь измениться или кдалиться , чтобы посты не удалились
     @OneToMany(mappedBy = "users" , fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "users" , fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
 
 

@@ -4,10 +4,7 @@ Content-Type: application/json
 
 {
   "email": "4057163@mail.ru",
-  "password": "11111111",
-  "name": "Иван",
-  "secondName": "Иванов",
-  "surName": "Иванович"
+  "password": "11111111"
 }
 
 ### Подтверждение регистрации (код из письма)
