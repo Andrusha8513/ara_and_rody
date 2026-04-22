@@ -38,6 +38,7 @@ public class SecurityConfig {
                                 "/api/users/registration",
                                 "/api/users/confirm-registration",
                                 "/api/singIn/auth",
+                                "/api/post/all",
                                 "/image/**"
                         ).permitAll()
                         .requestMatchers("/**").authenticated()

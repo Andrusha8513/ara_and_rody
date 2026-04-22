@@ -43,6 +43,7 @@ public class PostService {
        return postRepository.save(post);
     }
 
+    @Transactional(readOnly = true)
     public List<PostDto> getALLPost(){
         return postRepository.findAll().stream()
                 .map(postMapper::toDto)

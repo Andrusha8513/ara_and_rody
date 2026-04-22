@@ -1,11 +1,13 @@
 package ru.website_ara_and_rody.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.website_ara_and_rody.dto.EmailRequestDto;
 import ru.website_ara_and_rody.dto.JwtAuthenticationDto;
+import ru.website_ara_and_rody.dto.MeDto;
 import ru.website_ara_and_rody.dto.UserRegistrationDto;
 import ru.website_ara_and_rody.email.EmailService;
 import ru.website_ara_and_rody.entity.Role;
@@ -58,4 +60,10 @@ public class UserService {
     }
 
 
+    @Transactional(readOnly = true)
+    public MeDto me(Long id){
+        Users users  = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь не найден"));
+        return userMapper.toDto(users);
+    }
 }

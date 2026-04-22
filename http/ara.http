@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ### Подтверждение регистрации (код приходит на почту)
-POST http://localhost:9090/api/users/confirm-registration?code=CC2030
+POST http://localhost:9090/api/users/confirm-registration?code=544B08
 
 ### Вход и получение JWT токенов (возвращает accessToken + refreshToken)
 POST http://localhost:9090/api/singIn/auth
@@ -85,8 +85,7 @@ Authorization: Bearer <jwt_токен>
 
 ### ==================== Изображения ====================
 
-### Получение изображения по ID (возможно публичный доступ)
-GET http://localhost:9090/image/3
+
 
 ###
 ### Создание поста БЕЗ изображений
@@ -106,3 +105,8 @@ Content-Type: application/json
 
 ###
 GET http://localhost:9090/image/1
+
+###
+### Получить список всех постов
+GET http://localhost:9090/api/post/all
+

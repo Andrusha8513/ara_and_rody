@@ -2,8 +2,12 @@ package ru.website_ara_and_rody.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import ru.website_ara_and_rody.dto.MeDto;
 import ru.website_ara_and_rody.dto.UserRegistrationDto;
+import ru.website_ara_and_rody.security.CustomUserDetails;
 import ru.website_ara_and_rody.service.UserService;
 
 @RequiredArgsConstructor
@@ -30,5 +34,11 @@ public class UserController {
         }catch (RuntimeException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<MeDto> me(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+           MeDto me = userService.me(customUserDetails.getId());
+           return ResponseEntity.ok(me);
     }
 }
