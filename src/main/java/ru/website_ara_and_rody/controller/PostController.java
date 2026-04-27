@@ -2,6 +2,7 @@ package ru.website_ara_and_rody.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +15,7 @@ import ru.website_ara_and_rody.security.CustomUserDetails;
 import ru.website_ara_and_rody.service.PostService;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 @Slf4j
@@ -41,11 +43,14 @@ public class PostController {
                                         @RequestPart(value = "files", required = false) List<MultipartFile> files) {
 
         try {
-            Post post = postService.createPost(customUserDetails.getId(), createPostDto, files);
-            return ResponseEntity.ok(post);
+             postService.createPost(customUserDetails.getId(), createPostDto, files);
+            return ResponseEntity.status(HttpStatus.FOUND)
+                    .location(URI.create("/api/post/all"))
+                    .build();
         } catch (IOException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+
     }
 
 
@@ -60,6 +65,7 @@ public class PostController {
             log.error("Ошибка при обновление поста ", e);
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+
     }
 
     @PutMapping("update-text-post/{postId}")

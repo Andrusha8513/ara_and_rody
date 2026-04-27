@@ -12,6 +12,7 @@ import ru.website_ara_and_rody.mapper.CommentMapper;
 import ru.website_ara_and_rody.repositoty.CommentRepository;
 import ru.website_ara_and_rody.repositoty.PostRepository;
 import ru.website_ara_and_rody.repositoty.UserRepository;
+import ru.website_ara_and_rody.security.Owner_Comment;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class CommentService {
     private final CommentMapper commentMapper;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final Owner_Comment ownerComment;
 
     @Transactional
     public void createComment(Long postId , Long userId, CommentDto commentDto){
@@ -49,6 +51,7 @@ return commentRepository.findByPostId(postId).stream()
     public void deleteComment(Long id){
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Комментарий с таким id " + id + " не найден!"));
+        ownerComment.checkAccess(comment);
         commentRepository.delete(comment);
     }
 

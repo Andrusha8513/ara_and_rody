@@ -42,7 +42,7 @@ public class UserService {
         users.setPassword(passwordEncoder.encode(users.getPassword()));
         String code = UUID.randomUUID().toString().substring(0, 6).toUpperCase();
         users.setConfirmationCode(code);
-        users.setRoles(Set.of(Role.ADMIN));
+        users.setRoles(Set.of(Role.USER));
 
         EmailRequestDto emailRequestDto = emailMapper.toDto(users);
         emailService.sendConfirmationEmail(emailRequestDto);
