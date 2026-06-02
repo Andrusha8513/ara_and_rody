@@ -82,8 +82,7 @@ public class JwtService {
                 claims.get(CLAIM_USER_ID , Long.class),
                 claims.getSubject(),
                 null,
-                extractRoles(claims),
-                claims.get(CLAIM_IS_ENABLED , Boolean.class)
+                extractRoles(claims)
         );
     }
 

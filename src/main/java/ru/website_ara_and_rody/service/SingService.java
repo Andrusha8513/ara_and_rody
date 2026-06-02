@@ -28,8 +28,7 @@ public class SingService {
                 users.getId(),
                 users.getEmail(),
                 null,
-                users.getRoles(),
-                users.getEnable());
+                users.getRoles());
 
         if (users.getEnable() == true && jwtService.validateToken(users.getRefreshToken())) {
             return jwtService.refreshBaseToken(tokenData , users.getRefreshToken());

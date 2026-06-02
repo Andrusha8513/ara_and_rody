@@ -9,7 +9,6 @@ import java.util.Set;
 public record TokenData(Long id,
                         String email,
                         String password,
-                        Set<Role> roles,
-                        Boolean isEnabled) {
+                        Set<Role> roles) {
 
 }

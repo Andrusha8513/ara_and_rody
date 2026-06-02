@@ -11,14 +11,14 @@ Content-Type: application/json
 }
 
 ### Подтверждение регистрации (код приходит на почту)
-POST http://localhost:9090/api/users/confirm-registration?code=544B08
+POST http://localhost:9090/api/users/confirm-registration?code=09E6D5
 
 ### Вход и получение JWT токенов (возвращает accessToken + refreshToken)
 POST http://localhost:9090/api/singIn/auth
 Content-Type: application/json
 
 {
-  "email": "4057163@mail.ru",
+  "email": "9197195@mail.ru",
   "password": "11111111"
 }
 
